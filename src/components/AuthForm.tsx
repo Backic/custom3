@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, User, AlertCircle, BarChart3, TrendingUp, Users, Target } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle, TrendingUp, Users, Target } from 'lucide-react';
+import { DNAIcon } from './DNAIcon';
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -45,7 +46,7 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
           <div className="flex items-center justify-between max-w-7xl mx-auto">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-white" />
+                <DNAIcon className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold">CustomerDNA</span>
             </div>
@@ -64,7 +65,7 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
             {/* Main Hero */}
             <div className="text-center mb-16 sm:mb-24">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 rounded-full text-sm text-gray-300 mb-8 animate-fade-in">
-                <BarChart3 className="w-4 h-4" />
+                <DNAIcon className="w-4 h-4" />
                 AI-Powered Customer Segmentation
               </div>
               
@@ -208,7 +209,7 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-8">
             <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-white" />
+              <DNAIcon className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">CustomerDNA</span>
           </div>
