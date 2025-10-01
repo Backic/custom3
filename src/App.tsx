@@ -169,17 +169,17 @@ function Dashboard() {
         return (
           <div className="space-y-8">
             {/* Hero Section */}
-            <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 dark:from-blue-700 dark:via-purple-700 dark:to-blue-800 rounded-2xl text-white p-12 text-center">
+            <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 dark:from-blue-700 dark:via-purple-700 dark:to-blue-800 rounded-2xl text-white p-6 sm:p-12 text-center animate-slide-up">
               <div className="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <BarChart3 className="w-10 h-10" />
               </div>
-              <h1 className="text-4xl font-bold mb-4">Welcome to Customer Segmentation</h1>
-              <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              <h1 className="text-2xl sm:text-4xl font-bold mb-4">Welcome to CustomerDNA</h1>
+              <p className="text-lg sm:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
                 Discover hidden patterns in your customer data using advanced K-Means clustering algorithms
               </p>
               <button
                 onClick={() => setCurrentView('upload')}
-                className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all transform hover:scale-105"
+                className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all transform hover:scale-105 text-sm sm:text-base"
               >
                 <Upload className="w-5 h-5" />
                 Start New Analysis
@@ -188,7 +188,7 @@ function Dashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in animation-delay-200">
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                   <Upload className="w-6 h-6 text-blue-600" />
@@ -228,7 +228,7 @@ function Dashboard() {
             </div>
 
             {/* Features */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 animate-slide-up animation-delay-400">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Key Features</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="text-center">
@@ -236,7 +236,7 @@ function Dashboard() {
                     <BarChart3 className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Smart Clustering</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                     Automatic K-means clustering with optimal cluster count detection using elbow method
                   </p>
                 </div>
@@ -245,7 +245,7 @@ function Dashboard() {
                     <BarChart3 className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Interactive Visualizations</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                     Rich charts and graphs to understand customer segments and cluster characteristics
                   </p>
                 </div>
@@ -254,7 +254,7 @@ function Dashboard() {
                     <BarChart3 className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Export & History</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                     Save analyses, export segmented data, and track your clustering experiments over time
                   </p>
                 </div>
