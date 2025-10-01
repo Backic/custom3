@@ -102,22 +102,6 @@ export function DataUpload({ onDataUploaded }: DataUploadProps) {
         />
       </div>
 
-      <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">Try Sample Data</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Use our sample customer dataset to explore the features</p>
-          </div>
-          <button
-            onClick={loadSampleData}
-            className="flex items-center gap-2 px-3 sm:px-4 py-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-all text-sm"
-          >
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Load Sample</span>
-            <span className="sm:hidden">Sample</span>
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
