@@ -10,7 +10,7 @@ import { DataUpload } from './components/DataUpload';
 import { DataPreview } from './components/DataPreview';
 import { ClusteringAnalysis } from './components/ClusteringAnalysis';
 import { ClusteringHistory } from './components/ClusteringHistory';
-import { Upload, History, ArrowRight, Download } from 'lucide-react';
+import { Upload, History, ArrowRight, Download, BarChart3 } from 'lucide-react';
 import { DNAIcon } from './components/DNAIcon';
 import { generateCSV, downloadCSV } from './lib/csv';
 import type { CustomerRecord, ClusterResult } from './types';
