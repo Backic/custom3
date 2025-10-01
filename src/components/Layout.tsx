@@ -1,4 +1,5 @@
 import React from 'react';
+import { BarChart3 } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { DNAIcon } from './DNAIcon';
 
