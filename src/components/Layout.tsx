@@ -19,7 +19,7 @@ export function Layout({ children, currentView, onViewChange, onProfileClick }: 
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <BarChart3 className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
-              <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">SegmentAI</h1>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">CustomerDNA</h1>
             </div>
 
             <Navigation 

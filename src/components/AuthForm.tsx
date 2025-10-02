@@ -47,7 +47,7 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <BarChart3 className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold">SegmentAI</span>
+              <span className="text-xl font-bold">CustomerDNA</span>
             </div>
             <button
               onClick={() => setIsLogin(true)}
@@ -175,11 +175,11 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
             {/* CTA */}
             <div className="bg-gray-800 rounded-2xl p-8 sm:p-12 text-center animate-slide-up">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                Ready to Unlock AI-Powered Insights?
+                Ready to Decode Your Customer DNA?
               </h2>
               <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-                Join thousands of businesses using SegmentAI to transform their customer insights and drive 
-                growth through AI-powered segmentation.
+                Join thousands of businesses using CustomerDNA to transform their customer insights and drive 
+                growth through data-driven decision making.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
@@ -259,11 +259,11 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
           </div>
 
           <button
-            onClick={() => onToggle()}
+            type="submit"
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105"
           >
-            Create account
+            {loading ? (
               <div className="flex items-center justify-center gap-2">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Processing...

@@ -173,9 +173,9 @@ function Dashboard() {
               <div className="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <BarChart3 className="w-10 h-10" />
               </div>
-              <h1 className="text-2xl sm:text-4xl font-bold mb-4">Welcome to SegmentAI</h1>
+              <h1 className="text-2xl sm:text-4xl font-bold mb-4">Welcome to CustomerDNA</h1>
               <p className="text-lg sm:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                Discover hidden patterns in your customer data using advanced AI and machine learning algorithms
+                Discover hidden patterns in your customer data using advanced K-Means clustering algorithms
               </p>
               <button
                 onClick={() => setCurrentView('upload')}
@@ -298,12 +298,7 @@ function AppContent() {
   }
 
   if (!user) {
-    return (
-      <AuthForm 
-        isLogin={isLogin} 
-        onToggle={() => setIsLogin(!isLogin)} 
-      />
-    );
+    return <AuthForm isLogin={isLogin} onToggle={() => setIsLogin(!isLogin)} />;
   }
 
   return <Dashboard />;
