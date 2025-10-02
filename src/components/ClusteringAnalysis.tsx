@@ -317,7 +317,7 @@ export function ClusteringAnalysis({ data, filename, clusteringConfig, onBack, o
           {/* Cluster Insights */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Cluster Insights</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {clusterResult.clusters.map((cluster, index) => (
                 <div
                   key={cluster.id}
@@ -348,8 +348,129 @@ export function ClusteringAnalysis({ data, filename, clusteringConfig, onBack, o
               ))}
             </div>
           </div>
+
+          {/* Market Recommendations */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                <span className="text-yellow-600 dark:text-yellow-400">💡</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Market Recommendations</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {clusterResult.clusters.map((cluster, index) => {
+                const recommendations = getClusterRecommendations(cluster, index);
+                return (
+                  <div
+                    key={cluster.id}
+                    className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold" style={{ color: colors[index % colors.length] }}>
+                        Cluster {cluster.id + 1} Strategy
+                      </h4>
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        recommendations.priority === 'High' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' :
+                        recommendations.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                      }`}>
+                        {recommendations.priority}
+                      </span>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      {recommendations.description}
+                    </p>
+                    
+                    <div className="mb-3">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">Strategy:</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{recommendations.strategy}</p>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white mb-2">Key Actions:</p>
+                      <ul className="space-y-1">
+                        {recommendations.tactics.slice(0, 3).map((tactic, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                            {tactic}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div className="pt-3 border-t border-gray-100 dark:border-gray-600">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">Customers:</span>
+                        <span className="font-medium text-gray-900 dark:text-white">{cluster.size}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </>
       ) : null}
     </div>
   );
+}
+
+function getClusterRecommendations(cluster: ClusterData, index: number) {
+  // Analyze cluster characteristics to provide recommendations
+  const characteristics = cluster.characteristics;
+  const avgValues = Object.values(characteristics);
+  const avgSum = avgValues.reduce((sum, val) => sum + val, 0) / avgValues.length;
+  
+  // Determine cluster type based on characteristics
+  if (avgSum > 1000) {
+    return {
+      priority: 'High' as const,
+      description: 'High-value customers with strong engagement metrics',
+      strategy: 'Retention and premium service focus',
+      tactics: [
+        'Offer exclusive products and early access',
+        'Implement VIP loyalty programs',
+        'Provide dedicated customer support',
+        'Upsell premium services'
+      ]
+    };
+  } else if (avgSum > 500) {
+    return {
+      priority: 'Medium' as const,
+      description: 'Mid-tier customers with growth potential',
+      strategy: 'Engagement and value increase',
+      tactics: [
+        'Send targeted promotional campaigns',
+        'Offer loyalty rewards and incentives',
+        'Recommend complementary products',
+        'Create personalized experiences'
+      ]
+    };
+  } else if (avgSum > 100) {
+    return {
+      priority: 'Medium' as const,
+      description: 'Emerging customers requiring nurturing',
+      strategy: 'Activation and engagement building',
+      tactics: [
+        'Send welcome series and onboarding',
+        'Provide educational content',
+        'Offer first-purchase incentives',
+        'Collect feedback and preferences'
+      ]
+    };
+  } else {
+    return {
+      priority: 'Low' as const,
+      description: 'Low-engagement customers needing reactivation',
+      strategy: 'Win-back and reactivation campaigns',
+      tactics: [
+        'Send reactivation email campaigns',
+        'Offer significant discounts',
+        'Survey for feedback and issues',
+        'Use different communication channels'
+      ]
+    };
+  }
 }
