@@ -10,7 +10,8 @@ import { DataUpload } from './components/DataUpload';
 import { DataPreview } from './components/DataPreview';
 import { ClusteringAnalysis } from './components/ClusteringAnalysis';
 import { ClusteringHistory } from './components/ClusteringHistory';
-import { BarChart3, Upload, History, ArrowRight, Download } from 'lucide-react';
+import { Upload, History, ArrowRight, Download, BarChart3 } from 'lucide-react';
+import { DNAIcon } from './components/DNAIcon';
 import { generateCSV, downloadCSV } from './lib/csv';
 import type { CustomerRecord, ClusterResult } from './types';
 import { RFMConfig } from './components/ClusteringConfiguration';
@@ -133,7 +134,7 @@ function Dashboard() {
       case 'visualizations':
         return (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center">
-            <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <DNAIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Visualizations</h2>
             <p className="text-gray-600 dark:text-gray-400">Advanced visualization features coming soon</p>
           </div>
@@ -171,7 +172,7 @@ function Dashboard() {
             {/* Hero Section */}
             <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 dark:from-blue-700 dark:via-purple-700 dark:to-blue-800 rounded-2xl text-white p-6 sm:p-12 text-center animate-slide-up">
               <div className="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <BarChart3 className="w-10 h-10" />
+                <DNAIcon className="w-10 h-10" />
               </div>
               <h1 className="text-2xl sm:text-4xl font-bold mb-4">Welcome to CustomerDNA</h1>
               <p className="text-lg sm:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
@@ -233,7 +234,7 @@ function Dashboard() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <BarChart3 className="w-8 h-8 text-white" />
+                    <DNAIcon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Smart Clustering</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
@@ -242,7 +243,7 @@ function Dashboard() {
                 </div>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <BarChart3 className="w-8 h-8 text-white" />
+                    <DNAIcon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Interactive Visualizations</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
