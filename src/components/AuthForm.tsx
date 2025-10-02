@@ -47,7 +47,7 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <BarChart3 className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold">CustomerDNA</span>
+              <span className="text-xl font-bold">SegmentAI</span>
             </div>
             <button
               onClick={() => setIsLogin(true)}
