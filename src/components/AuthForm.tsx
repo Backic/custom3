@@ -175,11 +175,11 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
             {/* CTA */}
             <div className="bg-gray-800 rounded-2xl p-8 sm:p-12 text-center animate-slide-up">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                Ready to Decode Your Customer DNA?
+                Ready to Unlock AI-Powered Insights?
               </h2>
               <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-                Join thousands of businesses using CustomerDNA to transform their customer insights and drive 
-                growth through data-driven decision making.
+                Join thousands of businesses using SegmentAI to transform their customer insights and drive 
+                growth through AI-powered segmentation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
