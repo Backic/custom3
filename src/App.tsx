@@ -298,7 +298,15 @@ function AppContent() {
   }
 
   if (!user) {
-    return <AuthForm isLogin={isLogin} onToggle={() => setIsLogin(!isLogin)} />;
+    return (
+      <>
+        {isLogin ? (
+          <AuthForm isLogin={true} onToggle={() => setIsLogin(false)} />
+        ) : (
+          <AuthForm isLogin={false} onToggle={() => setIsLogin(true)} />
+        )}
+      </>
+    );
   }
 
   return <Dashboard />;
