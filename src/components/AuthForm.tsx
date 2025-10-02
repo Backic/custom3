@@ -259,17 +259,17 @@ export function AuthForm({ isLogin, onToggle }: AuthFormProps) {
           </div>
 
           <button
-            type="submit"
+            onClick={() => onToggle()}
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105"
           >
-            {loading ? (
+            Create account
               <div className="flex items-center justify-center gap-2">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Processing...
               </div>
             ) : (
-              isLogin ? 'Sign In' : 'Create account'
+              'Sign In'
             )}
           </button>
         </form>
