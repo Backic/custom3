@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthForm } from './components/AuthForm';
+import AuthForm from './components/AuthForm';
 import { Layout } from './components/Layout';
 import { ProfileModal } from './components/ProfileModal';
 import { ClusteringConfiguration, ClusteringConfig } from './components/ClusteringConfiguration';
