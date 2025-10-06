@@ -34,7 +34,7 @@ export function Layout({ children, currentView, onViewChange, onProfileClick }: 
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 overflow-y-auto max-h-[calc(100vh-80px)]">
         <div className="animate-fade-in">
           {children}
         </div>
