@@ -11,6 +11,8 @@ interface DataPreviewProps {
 
 export function DataPreview({ data, filename, onAnalyze, onBack }: DataPreviewProps) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageInput, setPageInput] = useState('');
+  const [isEditingPage, setIsEditingPage] = useState(false);
   const rowsPerPage = 20;
   
   const totalPages = Math.ceil(data.length / rowsPerPage);
@@ -24,6 +26,20 @@ export function DataPreview({ data, filename, onAnalyze, onBack }: DataPreviewPr
     !isNaN(parseFloat(data[0]?.[header] as string))
   );
 
+  const handlePageInputSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const pageNum = parseInt(pageInput);
+    if (pageNum >= 1 && pageNum <= totalPages) {
+      setCurrentPage(pageNum);
+    }
+    setPageInput('');
+    setIsEditingPage(false);
+  };
+
+  const handlePageClick = () => {
+    setIsEditingPage(true);
+    setPageInput(currentPage.toString());
+  };
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -110,9 +126,33 @@ export function DataPreview({ data, filename, onAnalyze, onBack }: DataPreviewPr
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
-                Page {currentPage} of {totalPages}
-              </span>
+              {isEditingPage ? (
+                <form onSubmit={handlePageInputSubmit} className="flex items-center gap-1">
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Page</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max={totalPages}
+                    value={pageInput}
+                    onChange={(e) => setPageInput(e.target.value)}
+                    onBlur={() => {
+                      setIsEditingPage(false);
+                      setPageInput('');
+                    }}
+                    className="w-12 px-1 py-1 text-xs sm:text-sm text-center border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    autoFocus
+                  />
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">of {totalPages}</span>
+                </form>
+              ) : (
+                <span 
+                  className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-900 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                  onClick={handlePageClick}
+                  title="Click to enter page number"
+                >
+                  Page {currentPage} of {totalPages}
+                </span>
+              )}
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
