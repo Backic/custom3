@@ -72,9 +72,6 @@ export function DataPreview({ data, filename, onAnalyze, onBack }: DataPreviewPr
                     className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b dark:border-gray-600"
                   >
                     <span className="truncate block max-w-24 sm:max-w-none">{header}</span>
-                    {numericColumns.includes(header) && (
-                      <span className="ml-1 sm:ml-2 inline-block w-2 h-2 bg-blue-500 rounded-full" />
-                    )}
                   </th>
                 ))}
               </tr>
