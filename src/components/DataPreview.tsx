@@ -128,18 +128,6 @@ export function DataPreview({ data, filename, onAnalyze, onBack }: DataPreviewPr
         )}
       </div>
 
-      {/* Column Types Legend */}
-      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 animate-fade-in animation-delay-400">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-blue-500 rounded-full" />
-            <span className="text-gray-700 dark:text-gray-300">Numeric columns (will be used for clustering)</span>
-          </div>
-          <div className="text-gray-600 dark:text-gray-400">
-            Non-numeric columns will be excluded from clustering analysis
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
