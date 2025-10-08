@@ -38,21 +38,13 @@ export function Navigation({ currentView, onViewChange, onProfileClick }: Naviga
     setIsMobileMenuOpen(false);
   };
 
-  // Helper function to determine if a nav item should be active
-  const isNavItemActive = (itemId: string) => {
-    if (itemId === 'visualizations') {
-      // Visualizations should be active for analysis and rfm views
-      return currentView === 'visualizations' || currentView === 'analysis' || currentView === 'rfm';
-    }
-    return currentView === itemId;
-  };
   return (
     <>
       {/* Desktop Navigation */}
       <nav className="hidden lg:flex items-center gap-2">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = isNavItemActive(item.id);
+          const isActive = currentView === item.id;
           
           return (
             <button
@@ -124,7 +116,7 @@ export function Navigation({ currentView, onViewChange, onProfileClick }: Naviga
               <nav className="space-y-2">
                 {navItems.map((item) => {
                   const Icon = item.icon;
-                  const isActive = isNavItemActive(item.id);
+                  const isActive = currentView === item.id;
                   
                   return (
                     <button
