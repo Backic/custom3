@@ -58,9 +58,9 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
   );
 
   React.useEffect(() => {
-    // Auto-select some numeric features by default
+    // Clear selected features when analysis type changes
     if (analysisType === 'clustering') {
-      setSelectedFeatures(numericFields.slice(0, 3));
+      setSelectedFeatures([]);
     }
   }, [data, analysisType]);
 
@@ -195,23 +195,35 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                   {/* Feature Selection */}
                   <div className="mb-8">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                      Select Features
+                      Select Features for Clustering
                     </label>
+                    
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                      Choose at least 2 numeric features to perform clustering analysis. Selected features will be used to group customers into segments.
+                    </p>
                     
                     <div className="space-y-4 max-h-64 overflow-y-auto">
                       {/* Demographic Features */}
                       {demographicFields.length > 0 && (
                         <div>
-                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">Demographics</h4>
-                          {demographicFields.map((feature) => (
+                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
+                            <span>Demographics</span>
+                            <span className="text-xs text-gray-400">({demographicFields.length} available)</span>
+                          </h4>
+                          {demographicFields.filter(field => numericFields.includes(field)).map((feature) => (
                             <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                               <input
                                 type="checkbox"
                                 checked={selectedFeatures.includes(feature)}
                                 onChange={() => handleFeatureToggle(feature)}
-                                className="w-4 h-4 text-blue-600"
+                                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                               />
-                              <span className="text-gray-700 dark:text-gray-300 text-sm">{feature}</span>
+                              <div className="flex-1">
+                                <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                  Sample: {data[0]?.[feature]} | Type: Numeric
+                                </div>
+                              </div>
                             </label>
                           ))}
                         </div>
@@ -220,16 +232,24 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                       {/* Transactional Features */}
                       {transactionalFields.length > 0 && (
                         <div>
-                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">Transactional</h4>
-                          {transactionalFields.map((feature) => (
+                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
+                            <span>Transactional</span>
+                            <span className="text-xs text-gray-400">({transactionalFields.filter(field => numericFields.includes(field)).length} available)</span>
+                          </h4>
+                          {transactionalFields.filter(field => numericFields.includes(field)).map((feature) => (
                             <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                               <input
                                 type="checkbox"
                                 checked={selectedFeatures.includes(feature)}
                                 onChange={() => handleFeatureToggle(feature)}
-                                className="w-4 h-4 text-blue-600"
+                                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                               />
-                              <span className="text-gray-700 dark:text-gray-300 text-sm">{feature}</span>
+                              <div className="flex-1">
+                                <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                  Sample: {data[0]?.[feature]} | Type: Numeric
+                                </div>
+                              </div>
                             </label>
                           ))}
                         </div>
@@ -238,25 +258,68 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                       {/* Other Numeric Features */}
                       {numericFields.filter(f => !demographicFields.includes(f) && !transactionalFields.includes(f)).length > 0 && (
                         <div>
-                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">Other</h4>
+                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
+                            <span>Other Numeric</span>
+                            <span className="text-xs text-gray-400">({numericFields.filter(f => !demographicFields.includes(f) && !transactionalFields.includes(f)).length} available)</span>
+                          </h4>
                           {numericFields.filter(f => !demographicFields.includes(f) && !transactionalFields.includes(f)).map((feature) => (
                             <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                               <input
                                 type="checkbox"
                                 checked={selectedFeatures.includes(feature)}
                                 onChange={() => handleFeatureToggle(feature)}
-                                className="w-4 h-4 text-blue-600"
+                                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                               />
-                              <span className="text-gray-700 dark:text-gray-300 text-sm">{feature}</span>
+                              <div className="flex-1">
+                                <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                  Sample: {data[0]?.[feature]} | Type: Numeric
+                                </div>
+                              </div>
                             </label>
                           ))}
                         </div>
                       )}
                     </div>
                     
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                      {selectedFeatures.length} features selected
-                    </p>
+                    <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          {selectedFeatures.length} features selected
+                        </span>
+                        {selectedFeatures.length > 0 && (
+                          <button
+                            onClick={() => setSelectedFeatures([])}
+                            className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                          >
+                            Clear all
+                          </button>
+                        )}
+                      </div>
+                      {selectedFeatures.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {selectedFeatures.map((feature) => (
+                            <span
+                              key={feature}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full"
+                            >
+                              {feature}
+                              <button
+                                onClick={() => handleFeatureToggle(feature)}
+                                className="hover:text-blue-900 dark:hover:text-blue-200"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {selectedFeatures.length < 2 && (
+                        <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
+                          ⚠️ Select at least 2 features to enable clustering
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </>
               ) : (
