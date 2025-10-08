@@ -39,6 +39,9 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
 
   const headers = data.length > 0 ? Object.keys(data[0]) : [];
   
+  // Filter numeric fields for RFM configuration
+  const numericFields = headers.filter(header => isNumeric(header));
+  
   // Helper function to determine data type
   const getDataType = (header: string) => {
     const value = data[0]?.[header];
