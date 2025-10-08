@@ -70,13 +70,14 @@ export function DataUpload({ onDataUploaded }: DataUploadProps) {
           dragOver
             ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
             : 'border-gray-300 dark:border-gray-600 hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-        }`}
+        } cursor-pointer`}
         onDrop={handleDrop}
         onDragOver={(e) => {
           e.preventDefault();
           setDragOver(true);
         }}
         onDragLeave={() => setDragOver(false)}
+        onClick={() => fileInputRef.current?.click()}
       >
         <FileText className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
         <p className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-2">
