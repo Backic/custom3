@@ -39,22 +39,45 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
 
   const headers = data.length > 0 ? Object.keys(data[0]) : [];
   
-  // Categorize fields
+  // Helper function to determine data type
+  const getDataType = (header: string) => {
+    const value = data[0]?.[header];
+    if (typeof value === 'number') return 'Numeric';
+    if (!isNaN(parseFloat(value as string))) return 'Numeric';
+    if (typeof value === 'string') return 'Text';
+    return 'Other';
+  };
+
+  // Helper function to check if field is numeric
+  const isNumeric = (header: string) => {
+    const value = data[0]?.[header];
+    return typeof value === 'number' || !isNaN(parseFloat(value as string));
+  };
+
+  // Categorize ALL fields (not just numeric)
   const demographicFields = headers.filter(header => 
-    ['age', 'gender', 'marital_status', 'education', 'occupation', 'location', 'region', 'income'].some(demo => 
+    ['age', 'gender', 'marital_status', 'education', 'occupation', 'location', 'region', 'income', 'city', 'state', 'country'].some(demo => 
       header.toLowerCase().includes(demo)
     )
   );
   
   const transactionalFields = headers.filter(header => 
-    ['purchase', 'spending', 'amount', 'frequency', 'recency', 'total', 'order', 'transaction'].some(trans => 
+    ['purchase', 'spending', 'amount', 'frequency', 'recency', 'total', 'order', 'transaction', 'revenue', 'sales', 'price', 'cost'].some(trans => 
       header.toLowerCase().includes(trans)
     )
   );
   
-  const numericFields = headers.filter(header => 
-    typeof data[0]?.[header] === 'number' || 
-    !isNaN(parseFloat(data[0]?.[header] as string))
+  const identifierFields = headers.filter(header => 
+    ['id', 'customer_id', 'user_id', 'account', 'number', 'code'].some(id => 
+      header.toLowerCase().includes(id)
+    )
+  );
+
+  // Get remaining fields that don't fit other categories
+  const otherFields = headers.filter(header => 
+    !demographicFields.includes(header) && 
+    !transactionalFields.includes(header) && 
+    !identifierFields.includes(header)
   );
 
   React.useEffect(() => {
@@ -208,9 +231,9 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                         <div>
                           <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
                             <span>Demographics</span>
-                            <span className="text-xs text-gray-400">({demographicFields.length} available)</span>
+                            <span className="text-xs text-gray-400">({demographicFields.length} fields)</span>
                           </h4>
-                          {demographicFields.filter(field => numericFields.includes(field)).map((feature) => (
+                          {demographicFields.map((feature) => (
                             <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                               <input
                                 type="checkbox"
@@ -221,7 +244,12 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                               <div className="flex-1">
                                 <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                  Sample: {data[0]?.[feature]} | Type: Numeric
+                                  Sample: {data[0]?.[feature]} | Type: {getDataType(feature)}
+                                  {!isNumeric(feature) && (
+                                    <span className="ml-2 px-1.5 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 rounded text-xs">
+                                      Non-numeric
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                             </label>
@@ -234,9 +262,9 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                         <div>
                           <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
                             <span>Transactional</span>
-                            <span className="text-xs text-gray-400">({transactionalFields.filter(field => numericFields.includes(field)).length} available)</span>
+                            <span className="text-xs text-gray-400">({transactionalFields.length} fields)</span>
                           </h4>
-                          {transactionalFields.filter(field => numericFields.includes(field)).map((feature) => (
+                          {transactionalFields.map((feature) => (
                             <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                               <input
                                 type="checkbox"
@@ -247,7 +275,12 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                               <div className="flex-1">
                                 <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                  Sample: {data[0]?.[feature]} | Type: Numeric
+                                  Sample: {data[0]?.[feature]} | Type: {getDataType(feature)}
+                                  {!isNumeric(feature) && (
+                                    <span className="ml-2 px-1.5 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 rounded text-xs">
+                                      Non-numeric
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                             </label>
@@ -255,14 +288,14 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                         </div>
                       )}
 
-                      {/* Other Numeric Features */}
-                      {numericFields.filter(f => !demographicFields.includes(f) && !transactionalFields.includes(f)).length > 0 && (
+                      {/* Identifier Fields */}
+                      {identifierFields.length > 0 && (
                         <div>
                           <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
-                            <span>Other Numeric</span>
-                            <span className="text-xs text-gray-400">({numericFields.filter(f => !demographicFields.includes(f) && !transactionalFields.includes(f)).length} available)</span>
+                            <span>Identifiers</span>
+                            <span className="text-xs text-gray-400">({identifierFields.length} fields)</span>
                           </h4>
-                          {numericFields.filter(f => !demographicFields.includes(f) && !transactionalFields.includes(f)).map((feature) => (
+                          {identifierFields.map((feature) => (
                             <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
                               <input
                                 type="checkbox"
@@ -273,7 +306,43 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                               <div className="flex-1">
                                 <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                  Sample: {data[0]?.[feature]} | Type: Numeric
+                                  Sample: {data[0]?.[feature]} | Type: {getDataType(feature)}
+                                  {!isNumeric(feature) && (
+                                    <span className="ml-2 px-1.5 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 rounded text-xs">
+                                      Non-numeric
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Other Fields */}
+                      {otherFields.length > 0 && (
+                        <div>
+                          <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2 flex items-center gap-2">
+                            <span>Other Fields</span>
+                            <span className="text-xs text-gray-400">({otherFields.length} fields)</span>
+                          </h4>
+                          {otherFields.map((feature) => (
+                            <label key={feature} className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded">
+                              <input
+                                type="checkbox"
+                                checked={selectedFeatures.includes(feature)}
+                                onChange={() => handleFeatureToggle(feature)}
+                                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                              />
+                              <div className="flex-1">
+                                <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">{feature}</span>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                  Sample: {data[0]?.[feature]} | Type: {getDataType(feature)}
+                                  {!isNumeric(feature) && (
+                                    <span className="ml-2 px-1.5 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 rounded text-xs">
+                                      Non-numeric
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                             </label>
@@ -316,7 +385,7 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                       )}
                       {selectedFeatures.length < 2 && (
                         <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
-                          ⚠️ Select at least 2 features to enable clustering
+                          ⚠️ Select at least 2 features to enable clustering. Note: Non-numeric fields will be automatically encoded.
                         </p>
                       )}
                     </div>
@@ -434,15 +503,15 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
                   <p className="text-gray-500 dark:text-gray-400">Customers</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-semibold text-gray-900 dark:text-white">{numericFields.length}</p>
-                  <p className="text-gray-500 dark:text-gray-400">Features Available</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">{headers.length}</p>
+                  <p className="text-gray-500 dark:text-gray-400">Total Fields</p>
                 </div>
                 <div className="text-center">
                   <p className="font-semibold text-gray-900 dark:text-white">
                     {analysisType === 'clustering' ? selectedFeatures.length : 'RFM'}
                   </p>
                   <p className="text-gray-500 dark:text-gray-400">
-                    {analysisType === 'clustering' ? 'Features Selected' : 'Analysis Type'}
+                    {analysisType === 'clustering' ? 'Selected' : 'Analysis Type'}
                   </p>
                 </div>
               </div>
