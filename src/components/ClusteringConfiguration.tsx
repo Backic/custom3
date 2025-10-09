@@ -39,6 +39,12 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
 
   const headers = data.length > 0 ? Object.keys(data[0]) : [];
   
+  // Helper function to check if field is numeric
+  const isNumeric = (header: string) => {
+    const value = data[0]?.[header];
+    return typeof value === 'number' || !isNaN(parseFloat(value as string));
+  };
+
   // Filter numeric fields for RFM configuration
   const numericFields = headers.filter(header => isNumeric(header));
   
@@ -49,12 +55,6 @@ export function ClusteringConfiguration({ data, onRunClustering, onRunRFM, onBac
     if (!isNaN(parseFloat(value as string))) return 'Numeric';
     if (typeof value === 'string') return 'Text';
     return 'Other';
-  };
-
-  // Helper function to check if field is numeric
-  const isNumeric = (header: string) => {
-    const value = data[0]?.[header];
-    return typeof value === 'number' || !isNaN(parseFloat(value as string));
   };
 
   // Categorize ALL fields (not just numeric)
