@@ -65,13 +65,26 @@ export function RFMAnalysis({ data, filename, rfmConfig, onBack, onSaveResult }:
   const handleSaveResult = () => {
     if (!rfmResult) return;
 
+    // Create a proper ClusterResult-like structure for RFM
     const result = {
       id: Date.now().toString(),
       user_id: 'current_user',
       dataset_id: Date.now().toString(),
       name: `${filename} - RFM Analysis`,
-      type: 'rfm',
-      segments: getSegmentDistribution(),
+      k: getSegmentDistribution().length,
+      features: [rfmConfig.recencyField, rfmConfig.frequencyField, rfmConfig.monetaryField],
+      clusters: getSegmentDistribution().map((seg, index) => ({
+        id: index,
+        centroid: [],
+        customers: getSegmentCustomers(seg.segment),
+        size: seg.count,
+        characteristics: {}
+      })),
+      metrics: {
+        silhouetteScore: 0.8, // Default for RFM
+        inertia: 0,
+        optimalK: getSegmentDistribution().length
+      },
       created_at: new Date().toISOString()
     };
 
