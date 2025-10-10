@@ -76,6 +76,57 @@ export function ClusteringAnalysis({ data, filename, clusteringConfig, onBack, o
     downloadCSV(csv, `${filename}_clustered_${timestamp}.csv`);
   };
 
+  const handleExportInsights = () => {
+    if (!clusterResult) return;
+
+    // Create cluster insights summary
+    const insightsData = clusterResult.clusters.map((cluster, index) => {
+      const recommendations = getClusterRecommendations(cluster, index);
+      
+      // Create a flat object with all characteristics
+      const characteristicsFlat = Object.entries(cluster.characteristics).reduce((acc, [key, value]) => {
+        acc[`Avg_${key}`] = value.toFixed(2);
+        return acc;
+      }, {} as Record<string, string>);
+
+      return {
+        Cluster_ID: `Cluster ${cluster.id + 1}`,
+        Customer_Count: cluster.size,
+        Percentage: ((cluster.size / data.length) * 100).toFixed(1) + '%',
+        ...characteristicsFlat,
+        Priority: recommendations.priority,
+        Description: recommendations.description,
+        Strategy: recommendations.strategy,
+        Key_Tactic_1: recommendations.tactics[0] || '',
+        Key_Tactic_2: recommendations.tactics[1] || '',
+        Key_Tactic_3: recommendations.tactics[2] || ''
+      };
+    });
+
+    // Add overall analysis summary
+    const summaryData = [{
+      Analysis_Type: 'K-Means Clustering',
+      Total_Customers: data.length,
+      Number_of_Clusters: clusterResult.clusters.length,
+      Features_Used: clusterResult.features.join(', '),
+      Silhouette_Score: clusterResult.metrics.silhouetteScore.toFixed(3),
+      Optimal_K: clusterResult.metrics.optimalK,
+      Analysis_Date: new Date().toLocaleDateString(),
+      Dataset_Name: filename
+    }];
+
+    // Combine summary and insights
+    const exportData = [
+      ...summaryData,
+      {}, // Empty row for separation
+      ...insightsData
+    ];
+
+    const csv = generateCSV(exportData);
+    const timestamp = new Date().toISOString().split('T')[0];
+    downloadCSV(csv, `${filename}_cluster_insights_${timestamp}.csv`);
+  };
+
   const handleSaveResult = () => {
     if (!clusterResult) return;
 
