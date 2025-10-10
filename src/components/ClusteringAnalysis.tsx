@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter, LineChart, Line, Cell } from 'recharts';
+import { PieChart, Pie } from 'recharts';
 import { TrendingUp, Users, Target, Download, ArrowLeft, Eye } from 'lucide-react';
 import { performClustering } from '../lib/clustering';
 import { generateCSV, downloadCSV } from '../lib/csv';
@@ -283,6 +284,44 @@ export function ClusteringAnalysis({ data, filename, clusteringConfig, onBack, o
               </div>
             </div>
 
+            {/* Cluster Distribution Pie Chart */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Cluster Percentage</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={clusterResult.clusters.map(c => ({
+                        name: `Cluster ${c.id + 1}`,
+                        value: c.size,
+                        percentage: ((c.size / data.length) * 100).toFixed(1)
+                      }))}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ percentage }) => `${percentage}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {clusterResult.clusters.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      formatter={(value, name, props) => [
+                        `${value} customers (${props.payload.percentage}%)`,
+                        props.payload.name
+                      ]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature Scatter Plot */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Feature Scatter Plot */}
             {features.length >= 2 && (
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
