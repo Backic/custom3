@@ -257,7 +257,7 @@ export function RFMAnalysis({ data, filename, rfmConfig, onBack, onSaveResult }:
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ segment, percentage }) => `${segment}: ${percentage}%`}
+                  label={({ segment, percentage }) => `${percentage}%`}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="count"
@@ -266,7 +266,12 @@ export function RFMAnalysis({ data, filename, rfmConfig, onBack, onSaveResult }:
                     <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  formatter={(value, name, props) => [
+                    `${value} customers (${props.payload.percentage}%)`,
+                    props.payload.segment
+                  ]}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
